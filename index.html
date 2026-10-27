@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1B1035">
+<meta name="theme-color" content="#0b0605">
+<script>window.RUINED = true; /* set to false for the calm, pretty version */ if (window.RUINED) document.documentElement.classList.add("ruined");</script>
 <title>Happy Birthday — For You</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1L14.5 9.5L23 12L14.5 14.5L12 23L9.5 14.5L1 12L9.5 9.5L12 1Z' fill='%23E8B34C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -226,6 +227,97 @@ footer{position:relative;z-index:2;text-align:center;padding:2.5rem 1rem 3rem;fo
   .game-actions button.primary:hover:not(:disabled){background:var(--gold);color:var(--bg-deep);}
 }
 
+
+/* ============================================================
+   RUINED MODE  (window.RUINED = true in <head>)
+============================================================= */
+#fireCanvas,#burnEdge,#soot,#cracks,#flashFx{display:none;}
+.ruined{
+  --bg-deep:#0b0605; --bg-mid:#170a07; --bg-soft:#24110b;
+  --gold:#ff7a1a; --gold-soft:#ffb15c; --blush:#ff4d2e;
+  --ivory:#efe4d6; --lavender:#a99689;
+  --line:rgba(255,120,40,.22);
+}
+.ruined body{background:#0b0605;}
+.ruined ::-webkit-scrollbar-thumb{background:#5a1d0c;}
+.ruined #stars{display:none;}
+.ruined #vignette{background:
+  radial-gradient(ellipse 90% 40% at 50% 112%, rgba(255,90,10,.38), transparent 70%),
+  radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.82) 100%);}
+.ruined #progress{background:linear-gradient(90deg,#ff3d1f,#ffb15c);box-shadow:0 0 12px #ff6a1a;}
+
+/* fire lives behind the content so text stays readable */
+.ruined #fireCanvas{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+.ruined #cracks{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;mix-blend-mode:screen;}
+#cracks path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+#cracks .c1{stroke:rgba(0,0,0,.55);stroke-width:3;}
+#cracks .c2{stroke:rgba(255,226,196,.42);stroke-width:.9;}
+.ruined #soot{display:block;position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.1 -.15'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");}
+.ruined #burnEdge{display:block;position:fixed;inset:0;z-index:7;pointer-events:none;
+  background:radial-gradient(circle at 0 0,rgba(0,0,0,.9),transparent 30%),radial-gradient(circle at 100% 0,rgba(0,0,0,.9),transparent 30%),radial-gradient(circle at 100% 100%,rgba(0,0,0,.9),transparent 34%),radial-gradient(circle at 0 100%,rgba(0,0,0,.9),transparent 34%);
+  box-shadow:inset 0 0 90px 24px rgba(0,0,0,.92),inset 0 0 26px 3px rgba(255,90,10,.3);}
+.ruined #flashFx{display:block;position:fixed;inset:0;z-index:8;pointer-events:none;background:#000;opacity:0;animation:flick 9s steps(1,end) infinite;}
+@keyframes flick{0%,90%,92%,94.5%,100%{opacity:0;}91%{opacity:.38;}93%{opacity:.18;}94%{opacity:.3;}}
+
+/* burnt paper: charred cards, scorch holes (jagged edges are set in JS) */
+.scorch{position:absolute;pointer-events:none;z-index:2;border-radius:50%;width:var(--s);height:var(--s);left:var(--x);top:var(--y);
+  background:radial-gradient(circle,#000 0 34%,rgba(18,5,2,.96) 44%,rgba(255,90,20,.6) 54%,rgba(255,60,0,0) 70%);opacity:.92;}
+.ruined .memory .card{position:relative;background:linear-gradient(160deg,#2a130c,#120807);border:1px solid rgba(255,120,40,.35);
+  box-shadow:inset 0 0 40px 8px rgba(0,0,0,.85),inset 0 0 0 2px rgba(255,100,20,.3);}
+.ruined .memory .photo-img,.ruined .g-item img{filter:sepia(.55) contrast(1.12) brightness(.82) saturate(.85);}
+.ruined .g-item img{transition:transform .6s var(--ease-soft),filter .5s;}
+@media (hover:hover) and (pointer:fine){.ruined .g-item:hover img{filter:none;}}
+.ruined .g-item::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,transparent 48%,rgba(0,0,0,.72) 100%),linear-gradient(0deg,rgba(255,70,0,.3),transparent 34%);}
+.ruined .g-item figcaption{z-index:3;}
+.ruined .flip-front{background:linear-gradient(160deg,#2a130c,#0e0605);box-shadow:inset 0 0 36px 6px #000,inset 0 0 0 2px rgba(255,100,20,.3);}
+.ruined .flip-back{background:linear-gradient(160deg,#ffb15c,#d9420f);color:#1a0804;box-shadow:inset 0 0 44px 12px rgba(30,6,0,.85);}
+
+/* timeline becomes a burning fuse */
+.ruined .constellation .line path{stroke:#ff6a1a;opacity:.95;filter:drop-shadow(0 0 6px #ff6a1a);}
+.ruined .memory .node{width:18px;height:26px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+  background:radial-gradient(circle at 50% 72%,#fff3b0,#ff9a1f 45%,#e0310f 82%);box-shadow:0 0 18px 6px rgba(255,100,20,.6);
+  transform-origin:50% 100%;animation:flame 1.1s ease-in-out infinite alternate;}
+@keyframes flame{0%{transform:scale(1,1) rotate(-3deg);}100%{transform:scale(1.12,1.22) rotate(3deg);}}
+
+/* headings on fire */
+.ruined #landing h1{background:linear-gradient(180deg,#fff1c9 0%,#ffb15c 30%,#ff5a1a 64%,#6a1307 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:url(#heat) drop-shadow(0 0 18px rgba(255,90,20,.45));}
+.ruined #landing h1 em{color:transparent;}
+.ruined #finale h2{filter:url(#heat) drop-shadow(0 0 22px rgba(255,90,20,.5));}
+.ruined .section-head h2{text-shadow:0 0 28px rgba(255,90,20,.25);}
+.ruined #letter-text .word.lit{text-shadow:0 0 14px rgba(255,100,30,.35);}
+
+/* the candle only makes it worse */
+.ruined .candle-wrap{margin-top:3.5rem;}
+.ruined .candle-wrap .prompt{color:#ffb15c;}
+.ruined .cupcake path{fill:#120807;stroke:#ff6a1a;stroke-opacity:.7;}
+.ruined .cupcake rect{fill:#2a130c;}
+.ruined .flame{filter:drop-shadow(0 0 10px #ff6a1a);animation:rage .45s ease-in-out infinite alternate;}
+.ruined .flame ellipse:first-child{fill:#ff5a1a;}
+.ruined .flame ellipse:last-child{fill:#fff0a8;}
+@keyframes rage{0%{transform:scale(1.5,1.7) rotate(-3deg);}100%{transform:scale(1.8,2.2) rotate(3deg);}}
+.ruined .candle-wrap.blown .flame{opacity:1;animation:rage2 .3s ease-in-out infinite alternate;}
+@keyframes rage2{0%{transform:scale(2.6,3.4) rotate(-5deg);}100%{transform:scale(3,3.9) rotate(5deg);}}
+
+/* finale, balloons, game, flowers */
+.ruined .balloon{box-shadow:inset -6px -8px 14px rgba(0,0,0,.65),0 0 18px rgba(255,90,20,.55);}
+.ruined .balloon::before{background:rgba(255,160,80,.22);}
+.ruined .balloon::after{background:rgba(255,150,80,.35);}
+.ruined #replayBtn{border-color:#ff6a1a;color:#ffb15c;box-shadow:0 0 18px rgba(255,90,20,.35);}
+.ruined #finale .sub{color:#c9a58f;}
+.shake-it{animation:shake .5s linear;}
+@keyframes shake{0%,100%{transform:translate(0);}20%{transform:translate(-5px,3px);}40%{transform:translate(5px,-3px);}60%{transform:translate(-3px,-2px);}80%{transform:translate(3px,2px);}}
+.ruined #gameCanvas{background:radial-gradient(ellipse at 50% 0%,#3a1209,#0c0504 80%);}
+.ruined #eggStar path{fill:#ff7a1a;}
+.ruined .fb-flower{filter:sepia(.85) brightness(.55) contrast(1.25) saturate(.75);}
+.ruined .fb-flower.smolder{filter:sepia(.8) brightness(.62) contrast(1.2) drop-shadow(0 0 7px rgba(255,90,20,.9));}
+@media (prefers-reduced-motion:reduce){
+  .ruined #landing h1,.ruined #finale h2{filter:none;}
+  .ruined #flashFx{display:none;}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
 }
@@ -237,6 +329,21 @@ footer{position:relative;z-index:2;text-align:center;padding:2.5rem 1rem 3rem;fo
 <div id="stars"></div>
 <div id="vignette"></div>
 <div id="progress"></div>
+
+<!-- ruined-mode layers (hidden unless window.RUINED) -->
+<canvas id="fireCanvas"></canvas>
+<div id="soot"></div>
+<svg id="cracks" aria-hidden="true"><path class="c1" d=""/><path class="c2" d=""/></svg>
+<div id="burnEdge"></div>
+<div id="flashFx"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="heat" x="-5%" y="-10%" width="110%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="2" seed="3" result="n">
+      <animate attributeName="baseFrequency" dur="6s" values="0.012 0.06;0.017 0.078;0.012 0.06" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
 
 <div id="flowerWrap" aria-hidden="true">
   <div id="flowerBorderLeft"></div>
@@ -362,7 +469,8 @@ const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','
 const safe = (name, fn) => { try { fn(); } catch (e) { console.warn('[' + name + '] failed:', e); } };
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-const PALETTE = ['#E8B34C', '#F2A6A0', '#9E8FC1', '#F5EFE6', '#f3cd80'];
+const RUINED = !!window.RUINED;
+const PALETTE = RUINED ? ['#ff7a1a', '#ffb15c', '#ff3d1f', '#ffd27a', '#c2410c'] : ['#E8B34C', '#F2A6A0', '#9E8FC1', '#F5EFE6', '#f3cd80'];
 
 /* Our own confetti instance: no web worker (avoids the blocked-worker warning) */
 safe('confetti', () => {
@@ -492,7 +600,8 @@ safe('candle', () => {
     if (wrap.classList.contains('blown')) return;
     wrap.classList.add('blown');
     cue.classList.add('show');
-    prompt.textContent = 'wish made ✦ now scroll';
+    prompt.textContent = RUINED ? 'oh no. that made it worse. keep scrolling…' : 'wish made ✦ now scroll';
+    if (RUINED && window.__emberBurst) { const r = wrap.getBoundingClientRect(); window.__emberBurst(r.left + r.width / 2, r.top + r.height * 0.3, 90); }
     fire({ particleCount: 40, spread: 60, startVelocity: 18, gravity: 0.6, colors: PALETTE, origin: { x: 0.5, y: 0.55 }, scalar: 0.7 });
   }
   wrap.addEventListener('click', blow);
@@ -588,8 +697,14 @@ safe('fireworks', () => {
     if (parts.length || pending) requestAnimationFrame(frame);
     else { running = false; ctx.globalCompositeOperation = 'source-over'; ctx.clearRect(0, 0, W, H); }
   }
+  function shakeIt() {
+    if (!RUINED) return;
+    const el = $('.finale-content'); el.classList.remove('shake-it'); void el.offsetWidth; el.classList.add('shake-it');
+    setTimeout(() => el.classList.remove('shake-it'), 600);
+  }
   function play() {
     if (reduceMotion) return;
+    shakeIt();
     [[.28,.32],[.7,.24],[.5,.4],[.15,.5],[.85,.45]].forEach((pos, i) => {
       pending++;
       setTimeout(() => { launch(W * pos[0], H * pos[1]); pending--; }, i * 380);
@@ -612,7 +727,7 @@ safe('fireworks', () => {
 ================================================================= */
 safe('balloons', () => {
   const wrap = $('#balloons'), finale = $('#finale');
-  const COLORS = ['#E8B34C', '#F2A6A0', '#9E8FC1', '#f3cd80', '#f87171', '#c084fc', '#60d0a0'];
+  const COLORS = RUINED ? ['#3a1a12', '#5a1d10', '#2a1410', '#7a2a12', '#4a1a0a'] : ['#E8B34C', '#F2A6A0', '#9E8FC1', '#f3cd80', '#f87171', '#c084fc', '#60d0a0'];
   const COUNT = innerWidth < 640 ? 8 : 12;
   let W = finale.clientWidth, H = finale.clientHeight;
   const list = [];
@@ -715,6 +830,7 @@ safe('game', () => {
   const scoreEl = $('#gameScore'), timeEl = $('#gameTime'), resultEl = $('#gameResult');
   const startBtn = $('#gameStartBtn'), closeBtn = $('#gameCloseBtn');
   const DURATION = 20;
+  if (RUINED) $('.game-sub').textContent = 'catch the falling embers before they hit the ground';
   let playing = false, score = 0, stars = [], cw = 0, ch = 0, dpr = 1, raf = 0, startT = 0, lastT = 0, spawnAcc = 0;
 
   function sizeCanvas() {
@@ -763,7 +879,7 @@ safe('game', () => {
     while (spawnAcc > 0.55) {
       spawnAcc -= 0.55;
       const size = rnd(14, 24);
-      stars.push({ x: rnd(size, cw - size), y: -size, size, speed: rnd(70, 150), color: Math.random() > 0.5 ? '#E8B34C' : '#F2A6A0' });
+      stars.push({ x: rnd(size, cw - size), y: -size, size, speed: rnd(70, 150), color: Math.random() > 0.5 ? PALETTE[0] : PALETTE[1] });
     }
     ctx.clearRect(0, 0, cw, ch);
     stars = stars.filter(s => { s.y += s.speed * dt; return s.y < ch + 30; });
@@ -843,7 +959,8 @@ safe('flowers', () => {
     while (col.list.length <= i) {
       if (!col.bag.length) { col.bag = shuffle([...Array(n).keys()]); if (col.bag[0] === col.last && n > 1) col.bag.push(col.bag.shift()); }
       const idx = col.bag.shift(); col.last = idx;
-      col.list.push({ idx, s: rnd(0.8, 1), rot: rnd(-24, 24), x: rnd(0.1, 0.9), op: rnd(0.86, 0.96) });
+      col.list.push({ idx, s: RUINED ? rnd(0.7, 1) : rnd(0.8, 1), rot: RUINED ? rnd(-58, 58) : rnd(-24, 24), x: rnd(0.1, 0.9),
+                      op: RUINED ? rnd(0.78, 0.95) : rnd(0.86, 0.96), burn: Math.random() < 0.25 });
     }
     return col.list[i];
   }
@@ -859,7 +976,7 @@ safe('flowers', () => {
       const ar = (src.naturalWidth ? src.naturalHeight / src.naturalWidth : 1);
       const w = stripW * p.s, h = w * ar;
       const img = document.createElement('img');
-      img.className = 'fb-flower'; img.src = SRC[p.idx]; img.alt = ''; img.draggable = false;
+      img.className = 'fb-flower' + (RUINED && p.burn ? ' smolder' : ''); img.src = SRC[p.idx]; img.alt = ''; img.draggable = false;
       img.style.width = w + 'px';
       img.style.top = y.toFixed(1) + 'px';
       img.style[mirror ? 'right' : 'left'] = ((stripW - w) * p.x).toFixed(1) + 'px';
@@ -894,6 +1011,176 @@ safe('flowers', () => {
       let t; new ResizeObserver(() => { clearTimeout(t); t = setTimeout(() => render(false), 200); }).observe(document.body);
     } else addEventListener('resize', () => render(false));
   });
+});
+
+/* ================================================================
+   RUINED MODE — burnt paper, scorch holes, cracked glass
+================================================================= */
+safe('ruin-decor', () => {
+  if (!RUINED) return;
+  const ri = (a, b) => Math.floor(rnd(a, b + 1));
+
+  // torn, burnt edge: a polygon with jittery sides and a couple of deep bites
+  function jagged() {
+    const pts = [];
+    for (let x = 0; x <= 100; x += rnd(4, 9)) pts.push([x, rnd(0, 2.4), 't']);
+    for (let y = 4; y <= 100; y += rnd(4, 9)) pts.push([100 - rnd(0, 2.4), y, 'r']);
+    for (let x = 100; x >= 0; x -= rnd(4, 9)) pts.push([x, 100 - rnd(0, 2.6), 'b']);
+    for (let y = 96; y >= 4; y -= rnd(4, 9)) pts.push([rnd(0, 2.4), y, 'l']);
+    for (let k = 0; k < 2; k++) {
+      const p = pts[ri(0, pts.length - 1)], d = rnd(4, 9);
+      if (p[2] === 't') p[1] += d; else if (p[2] === 'b') p[1] -= d; else if (p[2] === 'r') p[0] -= d; else p[0] += d;
+    }
+    return 'polygon(' + pts.map(p => p[0].toFixed(1) + '% ' + p[1].toFixed(1) + '%').join(',') + ')';
+  }
+  function scorch(el) {
+    const i = document.createElement('i'); i.className = 'scorch';
+    const left = Math.random() < 0.5, top = Math.random() < 0.5;
+    i.style.setProperty('--s', ri(50, 96) + 'px');
+    i.style.setProperty('--x', (left ? rnd(-14, -4) : rnd(72, 90)) + '%');
+    i.style.setProperty('--y', (top ? rnd(-16, -4) : rnd(66, 88)) + '%');
+    el.appendChild(i);
+  }
+  // clip-path goes on the flat faces (never on the 3D flip wrapper, that would break the flip)
+  $$('.memory .card, .g-item, .flip-front, .flip-back').forEach(el => { el.style.clipPath = jagged(); scorch(el); });
+  $$('.memory .card').forEach(el => { el.style.rotate = rnd(-1.4, 1.4).toFixed(2) + 'deg'; });
+  $$('.g-item').forEach(el => { el.style.rotate = rnd(-1.2, 1.2).toFixed(2) + 'deg'; });
+  $$('.flip-card').forEach(el => { el.style.rotate = rnd(-2, 2).toFixed(2) + 'deg'; });
+
+  // cracked glass: three impact points with branching cracks
+  function cracks() {
+    const svg = $('#cracks'), w = innerWidth, h = innerHeight;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    let d = '';
+    const seg = (x, y, a, len, depth) => {
+      let path = 'M' + x.toFixed(0) + ' ' + y.toFixed(0);
+      const steps = ri(5, 9);
+      for (let s = 0; s < steps; s++) {
+        a += rnd(-0.35, 0.35);
+        const l = (len / steps) * rnd(0.7, 1.3);
+        x += Math.cos(a) * l; y += Math.sin(a) * l;
+        path += ' L' + x.toFixed(0) + ' ' + y.toFixed(0);
+        if (depth < 2 && Math.random() < 0.22) d += seg(x, y, a + rnd(-1.1, 1.1), len * rnd(0.25, 0.45), depth + 1);
+      }
+      return path + ' ';
+    };
+    [[w * 0.07, h * 0.14], [w * 0.94, h * 0.8], [w * 0.5, h * 0.98]].forEach(([ox, oy]) => {
+      const n = ri(7, 10);
+      for (let i = 0; i < n; i++) {
+        const s = seg(ox, oy, (i / n) * Math.PI * 2 + rnd(-0.3, 0.3), Math.min(w, h) * rnd(0.25, 0.55), 0);
+        d += s;
+      }
+    });
+    $$('#cracks path').forEach(p => p.setAttribute('d', d));
+  }
+  cracks();
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(cracks, 250); });
+});
+
+/* ================================================================
+   RUINED MODE — fire: flames along the bottom, rising embers,
+   falling ash, drifting smoke (all on one canvas behind the content)
+================================================================= */
+safe('fire', () => {
+  if (!RUINED || reduceMotion) return;
+  const canvas = $('#fireCanvas'), ctx = canvas.getContext('2d');
+  let W = 0, H = 0;
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    W = innerWidth; H = innerHeight;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(size, 150); });
+
+  // pre-rendered soft sprites keep it cheap
+  function sprite(stops, s) {
+    const c = document.createElement('canvas'); c.width = c.height = s;
+    const g = c.getContext('2d'), gr = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    stops.forEach(st => gr.addColorStop(st[0], st[1]));
+    g.fillStyle = gr; g.fillRect(0, 0, s, s); return c;
+  }
+  const SP = {
+    hot:   sprite([[0, 'rgba(255,245,200,1)'], [0.35, 'rgba(255,190,70,.75)'], [1, 'rgba(255,120,20,0)']], 64),
+    mid:   sprite([[0, 'rgba(255,170,60,.95)'], [0.45, 'rgba(255,90,20,.55)'], [1, 'rgba(220,40,10,0)']], 64),
+    red:   sprite([[0, 'rgba(220,60,20,.7)'], [0.5, 'rgba(140,25,8,.4)'], [1, 'rgba(80,10,4,0)']], 64),
+    smoke: sprite([[0, 'rgba(70,60,58,.4)'], [1, 'rgba(40,34,32,0)']], 128),
+    ember: sprite([[0, 'rgba(255,235,170,1)'], [0.4, 'rgba(255,120,30,.8)'], [1, 'rgba(255,60,0,0)']], 32),
+  };
+  let flames = [], embers = [], ash = [], smoke = [], emitAcc = 0;
+  const small = innerWidth < 640;
+
+  window.__emberBurst = (x, y, n) => {
+    for (let i = 0; i < (n || 60); i++) {
+      const a = rnd(0, Math.PI * 2), s = rnd(1.5, 7);
+      embers.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, r: rnd(3, 9), life: 1, decay: rnd(0.008, 0.02), sway: 0, ph: 0, burst: true });
+    }
+  };
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min((now - last) / 16.67, 3); last = now;
+    ctx.clearRect(0, 0, W, H);
+
+    // smoke
+    if (smoke.length < (small ? 5 : 9) && Math.random() < 0.03 * dt)
+      smoke.push({ x: rnd(0, W), y: H + 80, r: rnd(80, 170), vy: rnd(0.25, 0.6), vx: rnd(-0.2, 0.2), life: 1, decay: rnd(0.0018, 0.003) });
+    ctx.globalCompositeOperation = 'source-over';
+    for (const s of smoke) {
+      s.x += s.vx * dt; s.y -= s.vy * dt; s.life -= s.decay * dt;
+      ctx.globalAlpha = Math.max(s.life, 0) * 0.9;
+      ctx.drawImage(SP.smoke, s.x - s.r, s.y - s.r, s.r * 2, s.r * 2);
+    }
+    smoke = smoke.filter(s => s.life > 0);
+
+    // flames along the bottom edge
+    emitAcc += (W / (small ? 110 : 170)) * dt;
+    while (emitAcc >= 1 && flames.length < 420) {
+      emitAcc -= 1;
+      flames.push({ x: rnd(-20, W + 20), y: H + 14, vx: rnd(-0.5, 0.5), vy: -(H * 0.0042 + rnd(0, H * 0.0032)),
+                    r: rnd(20, 48), life: 1, decay: rnd(0.014, 0.024), ph: rnd(0, 6.28) });
+    }
+    emitAcc = Math.min(emitAcc, 3);
+    ctx.globalCompositeOperation = 'lighter';
+    for (const f of flames) {
+      f.life -= f.decay * dt; f.y += f.vy * dt; f.x += (f.vx + Math.sin(f.ph + f.y * 0.03) * 0.8) * dt;
+      const sp = f.life > 0.62 ? SP.hot : f.life > 0.28 ? SP.mid : SP.red;
+      const s = f.r * (0.45 + f.life * 0.9);
+      ctx.globalAlpha = Math.min(1, f.life * 1.5) * 0.85;
+      ctx.drawImage(sp, f.x - s, f.y - s, s * 2, s * 2);
+    }
+    flames = flames.filter(f => f.life > 0);
+
+    // embers rising all over the screen
+    if (embers.length < (small ? 35 : 70) && Math.random() < 0.5 * dt)
+      embers.push({ x: rnd(0, W), y: H + 10, vx: 0, vy: -rnd(0.5, 1.8), r: rnd(2, 5), life: 1, decay: rnd(0.002, 0.006), sway: rnd(0.2, 0.9), ph: rnd(0, 6.28), burst: false });
+    for (const e of embers) {
+      e.life -= e.decay * dt;
+      if (e.burst) { e.vy += 0.06 * dt; e.vx *= 0.985; e.x += e.vx * dt; e.y += e.vy * dt; }
+      else { e.ph += 0.04 * dt; e.x += Math.sin(e.ph) * e.sway * dt; e.y += e.vy * dt; }
+      ctx.globalAlpha = Math.max(e.life, 0) * (0.65 + Math.sin(e.ph * 3) * 0.3);
+      ctx.drawImage(SP.ember, e.x - e.r, e.y - e.r, e.r * 2, e.r * 2);
+    }
+    embers = embers.filter(e => e.life > 0 && e.y > -20);
+
+    // ash drifting down
+    ctx.globalCompositeOperation = 'source-over';
+    if (ash.length < (small ? 18 : 34) && Math.random() < 0.25 * dt)
+      ash.push({ x: rnd(0, W), y: -10, vy: rnd(0.3, 0.9), sway: rnd(0.3, 0.8), ph: rnd(0, 6.28), w: rnd(2, 5), h: rnd(1, 3), rot: rnd(0, 3) });
+    ctx.fillStyle = '#9a8f88';
+    for (const a of ash) {
+      a.ph += 0.02 * dt; a.y += a.vy * dt; a.x += Math.sin(a.ph) * a.sway * dt; a.rot += 0.01 * dt;
+      ctx.globalAlpha = 0.35;
+      ctx.save(); ctx.translate(a.x, a.y); ctx.rotate(a.rot); ctx.fillRect(-a.w / 2, -a.h / 2, a.w, a.h); ctx.restore();
+    }
+    ash = ash.filter(a => a.y < H + 10);
+
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange', () => { last = performance.now(); });
 });
 </script>
 </body>
